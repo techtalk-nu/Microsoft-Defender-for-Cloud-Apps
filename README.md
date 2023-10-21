@@ -1,4 +1,4 @@
-# 🛡️ Microsoft Defender for Cloud Apps 🛡️
+# 🛡️ Microsoft Defender for Cloud Apps 🛡️ 
 
 Welcome to the GitHub repository dedicated to Microsoft Defender for Cloud Apps! Here, you'll find resources, configurations, scripts, and more to enhance and understand your usage of this robust security solution.
 
