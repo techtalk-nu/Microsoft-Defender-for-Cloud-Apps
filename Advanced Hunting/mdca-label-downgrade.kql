@@ -1,0 +1,58 @@
+// Define a function to map label IDs to human-readable names.
+let listLabelNames = (labelID: string) {
+    case(
+        labelID == "defa4170-0d19-0005-0000-bc88714345d2", "Personal",
+        labelID == "defa4170-0d19-0005-0001-bc88714345d2", "Public",
+        labelID == "defa4170-0d19-0005-000a-bc88714345d2", "Strictly Confidential - All Employees",
+        labelID == "defa4170-0d19-0005-0004-bc88714345d2", "General - All Employees (unrestricted)",
+        "Sentivity Label displayName not found"
+    )
+};
+// Query the CloudAppEvents table for specific action types related to sensitivity labels.
+CloudAppEvents 
+| where ActionType in~ (
+    "FileSensitivityLabelChanged", 
+    "SensitivityLabelUpdated", 
+    "FileSensitivityLabelRemoved", 
+    "SensitivityLabelRemoved"
+)
+// Parse the RawEventData column to extract JSON data.
+| extend data = parse_json(tostring(RawEventData))
+// Determine the SourceFileName based on the ActionType.
+| extend SourceFileName = iif(
+    ActionType == "FileSensitivityLabelChanged", 
+    tostring(data.SourceFileName), 
+    tostring(data.ObjectId)
+)
+// Extract the SiteUrl from the parsed JSON data.
+| extend SiteUrl = data.SiteUrl
+// Concatenate justification text from the sensitivity label event data.
+| extend SensitivityLabelJustificationText = strcat( 
+    tostring(data.SensitivityLabelEventData.JustificationText), 
+    tostring(data.SensitivityLabelJustificationText)
+)
+// Extract the old and new sensitivity label IDs from the event data.
+| extend SourceLabel = data.SensitivityLabelEventData.OldSensitivityLabelId
+| extend DestinationLabel = data.SensitivityLabelEventData.SensitivityLabelId
+// Filter events where the source label is "Strictly Confidential - All Employees"
+// and the destination label is not the same.
+| where SourceLabel in ("defa4170-0d19-0005-000a-bc88714345d2")
+    and DestinationLabel !in ("defa4170-0d19-0005-000a-bc88714345d2")
+// Project the desired columns, using the getLabelName function to get readable names for labels.
+| project 
+    Timestamp, 
+    AccountDisplayName, 
+    SourceLabelName = listLabelNames(SourceLabel), 
+    DestinationLabelName = listLabelNames(DestinationLabel), 
+    SensitivityLabelJustificationText, 
+    SourceFileName, 
+    Application, 
+    UserAgent, 
+    SiteUrl, 
+    ActionType, 
+    AccountId, 
+    AccountObjectId, 
+    SourceLabel, 
+    DestinationLabel, 
+    ReportId, 
+    RawEventData
