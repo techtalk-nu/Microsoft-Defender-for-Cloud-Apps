@@ -3,8 +3,17 @@ let listLabelNames = (labelID: string) {
     case(
         labelID == "defa4170-0d19-0005-0000-bc88714345d2", "Personal",
         labelID == "defa4170-0d19-0005-0001-bc88714345d2", "Public",
-        labelID == "defa4170-0d19-0005-000a-bc88714345d2", "Strictly Confidential - All Employees",
-        labelID == "defa4170-0d19-0005-0004-bc88714345d2", "General - All Employees (unrestricted)",
+        labelID == "defa4170-0d19-0005-0002-bc88714345d2", "General",
+        labelID == "defa4170-0d19-0005-0003-bc88714345d2", "General\\Anyone (unrestricted)",
+        labelID == "defa4170-0d19-0005-0004-bc88714345d2", "General\\All Employees (unrestricted)",
+        labelID == "defa4170-0d19-0005-0005-bc88714345d2", "Confidential",
+        labelID == "defa4170-0d19-0005-0006-bc88714345d2", "Confidential\\Anyone (unrestricted)",
+        labelID == "defa4170-0d19-0005-0007-bc88714345d2", "Confidential\\All Employees",
+        labelID == "defa4170-0d19-0005-0008-bc88714345d2", "Confidential\\Trusted People",
+        labelID == "defa4170-0d19-0005-0009-bc88714345d2", "Strictly Confidential",
+        labelID == "defa4170-0d19-0005-000a-bc88714345d2", "Strictly Confidential\\All Employees",
+        labelID == "defa4170-0d19-0005-000b-bc88714345d2", "Strictly Confidential\\Specified People",
+        labelID == "98be17d9-f42f-4294-8f95-4431963fe59e", "Strictly Confidential\\Tier1 Sites",
         "Sentivity Label displayName not found"
     )
 };
