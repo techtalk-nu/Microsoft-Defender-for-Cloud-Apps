@@ -43,10 +43,10 @@ CloudAppEvents
 // Extract the old and new sensitivity label IDs from the event data.
 | extend SourceLabel = data.SensitivityLabelEventData.OldSensitivityLabelId
 | extend DestinationLabel = data.SensitivityLabelEventData.SensitivityLabelId
-// Filter events where the source label is "Strictly Confidential - All Employees"
+// Filter events where the source label is "Strictly Confidential"
 // and the destination label is not the same.
-| where SourceLabel in ("defa4170-0d19-0005-000a-bc88714345d2")
-    and DestinationLabel !in ("defa4170-0d19-0005-000a-bc88714345d2")
+| where SourceLabel in ("defa4170-0d19-0005-0009-bc88714345d2", "defa4170-0d19-0005-000a-bc88714345d2", "defa4170-0d19-0005-000b-bc88714345d2")
+    and DestinationLabel !in ("defa4170-0d19-0005-0009-bc88714345d2", "defa4170-0d19-0005-000a-bc88714345d2", "defa4170-0d19-0005-000b-bc88714345d2")
 // Project the desired columns, using the getLabelName function to get readable names for labels.
 | project 
     Timestamp, 
